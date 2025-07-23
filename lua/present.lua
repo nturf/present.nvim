@@ -61,7 +61,7 @@ local create_window_configurations = function()
 
     local header_height = 1 + 2
     local footer_height = 1
-    local body_height = height - header_height - footer_height - 2 - 1
+    local body_height = height - header_height - footer_height - 2 - 1 -- for our own border
 
     return {
         background = {
@@ -97,6 +97,8 @@ local create_window_configurations = function()
             width = width,
             height = 1,
             style = "minimal",
+
+
             col = 0,
             row = height - 1,
             zindex = 3,
@@ -170,7 +172,7 @@ M.start_presentation = function(opts)
         set_slide_content(state.current_slide)
     end)
 
-    present_keymap("n", "q", function()
+    present_keymap("n", "<Esc>", function()
         vim.api.nvim_win_close(state.floats.body.win, true)
     end)
 
@@ -212,6 +214,7 @@ M.start_presentation = function(opts)
                 vim.api.nvim_win_set_config(state.floats[name].win, updated[name])
             end)
 
+            -- Re-calculates current slide contents
             set_slide_content(state.current_slide)
         end,
     })
